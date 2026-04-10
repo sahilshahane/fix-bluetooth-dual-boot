@@ -115,6 +115,7 @@ The script will:
 - If mounting fails and Windows was hibernated, fully shut down Windows and disable Fast Startup, then try again.
 - If `ControlSet001` is missing in `chntpw`, use `CurrentControlSet`.
 - On some Windows 7 systems, path segment `services` may be lowercase.
+- If `chntpw` is missing, `fix_bluetooth.sh` attempts auto-install using your distro package manager (`apt`, `dnf`, `yum`, `pacman`, `zypper`, `apk`, `xbps`).
 
 To locate the correct Windows partition and mount it yourself first, you can use:
 

@@ -36,7 +36,7 @@ Options:
   -h, --help             Show this help
 
 What this script does:
-  1) Ensures chntpw is available (installs with apt when needed)
+  1) Ensures chntpw is available (installs via your distro package manager when needed)
   2) Uses your already-mounted Windows directory
   3) Runs non-interactively by default (auto commands + exit)
   4) If adapter MAC is omitted, auto-searches all adapter keys
@@ -147,9 +147,35 @@ ensure_chntpw() {
     die "chntpw is not installed and --skip-install was provided"
   fi
 
-  log "Installing chntpw via apt"
-  sudo apt-get update
-  sudo apt-get install -y chntpw
+  if command -v apt-get >/dev/null 2>&1; then
+    log "Installing chntpw via apt"
+    apt-get update
+    apt-get install -y chntpw
+  elif command -v dnf >/dev/null 2>&1; then
+    log "Installing chntpw via dnf"
+    dnf install -y chntpw
+  elif command -v yum >/dev/null 2>&1; then
+    log "Installing chntpw via yum"
+    yum install -y chntpw
+  elif command -v pacman >/dev/null 2>&1; then
+    log "Installing chntpw via pacman"
+    pacman -Sy --noconfirm chntpw
+  elif command -v zypper >/dev/null 2>&1; then
+    log "Installing chntpw via zypper"
+    zypper --non-interactive install chntpw
+  elif command -v apk >/dev/null 2>&1; then
+    log "Installing chntpw via apk"
+    apk add --no-cache chntpw
+  elif command -v xbps-install >/dev/null 2>&1; then
+    log "Installing chntpw via xbps-install"
+    xbps-install -Sy chntpw
+  else
+    die "Could not detect a supported package manager. Please install chntpw manually and rerun."
+  fi
+
+  if ! command -v chntpw >/dev/null 2>&1; then
+    die "Installation command completed but chntpw is still unavailable"
+  fi
 }
 
 validate_mount_dir() {
