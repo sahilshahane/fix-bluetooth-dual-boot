@@ -2,10 +2,45 @@
 
 These scripts help fix Bluetooth pairing issues in dual-boot setups by reading pairing keys from Windows and updating Linux BlueZ device info.
 
+## ⚠️ IMPORTANT WARNING (READ FIRST)
+
+> **MAKE SURE THE BLUETOOTH DEVICE HAS BEEN PAIRED AT LEAST ONCE IN BOTH WINDOWS AND LINUX BEFORE RUNNING THESE SCRIPTS.**
+>
+> If the device is not already known on both sides, the required key/device entries may not exist and the fix will fail.
+
+
 ## Files
 
 - `fix_bluetooth.sh`: Main script
 - `run_fix_for_paired_devices.sh`: Batch runner for paired/connected/all known devices
+
+## Batch run for multiple devices
+
+Run fix for paired Bluetooth devices (default):
+
+```bash
+./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer
+```
+
+Use connected devices only:
+
+```bash
+./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --connected-only
+```
+
+Run fix for all known devices in BlueZ:
+
+```bash
+./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --all-known
+```
+
+Pass-through toggles:
+
+```bash
+./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --no-write-bluez-info
+./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --no-restart-bluetooth
+./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --bluez-dir /var/lib/bluetooth
+```
 
 ## Quick start
 
@@ -67,34 +102,6 @@ The script will:
 ./fix_bluetooth.sh --mount-dir /mnt/c --device-mac 84:0F:2A:D3:A5:31 --no-restart-bluetooth
 ./fix_bluetooth.sh --mount-dir /mnt/c --device-mac 84:0F:2A:D3:A5:31 --bluez-dir /var/lib/bluetooth
 ./fix_bluetooth.sh --mount-dir /mnt/c --interactive --skip-install
-```
-
-## Batch run for multiple devices
-
-Run extractor for paired Bluetooth devices (default):
-
-```bash
-./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer
-```
-
-Use connected devices only:
-
-```bash
-./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --connected-only
-```
-
-Run extractor for all known devices in BlueZ:
-
-```bash
-./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --all-known
-```
-
-Pass-through toggles:
-
-```bash
-./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --no-write-bluez-info
-./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --no-restart-bluetooth
-./run_fix_for_paired_devices.sh --mount-dir /media/sahil/Acer --bluez-dir /var/lib/bluetooth
 ```
 
 ## Notes
